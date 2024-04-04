@@ -1,0 +1,47 @@
+diff --git a/install/CMakeLists.txt b/install/CMakeLists.txt
+index 4e93572..30c24ef 100644
+--- a/install/CMakeLists.txt
++++ b/install/CMakeLists.txt
+@@ -37,7 +37,8 @@ function(install_zenohc_lib configurations property_postfix package_name)
+     configure_package_config_file(
+         "PackageConfig.cmake.in"
+         "${CMAKE_CURRENT_BINARY_DIR}/${package_name}Config.cmake"
+-        INSTALL_DESTINATION "${CMAKE_INSTALL_CMAKEDIR}")
++        INSTALL_DESTINATION "${CMAKE_INSTALL_CMAKEDIR}"
++        PATH_VARS CMAKE_INSTALL_INCLUDEDIR CMAKE_INSTALL_LIBDIR)
+ 
+     # Generate <Package>Version.cmake
+     write_basic_package_version_file(
+diff --git a/install/PackageConfig.cmake.in b/install/PackageConfig.cmake.in
+index e66109f..fb857b4 100644
+--- a/install/PackageConfig.cmake.in
++++ b/install/PackageConfig.cmake.in
+@@ -14,20 +14,23 @@
+ 
+ @PACKAGE_INIT@
+ 
++set_and_check(ZENOHC_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
++set_and_check(ZENOHC_LIBRARY_DIR "@PACKAGE_CMAKE_INSTALL_LIBDIR@")
++
+ add_library(__zenohc_static STATIC IMPORTED GLOBAL)
+ add_library(zenohc::static ALIAS __zenohc_static)
+-set_property(TARGET __zenohc_static PROPERTY IMPORTED_LOCATION "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/@STATICLIB@")
++set_property(TARGET __zenohc_static PROPERTY IMPORTED_LOCATION "${ZENOHC_LIBRARY_DIR}/@STATICLIB@")
+ target_link_libraries(__zenohc_static INTERFACE @NATIVE_STATIC_LIBS@)
+-target_include_directories(__zenohc_static INTERFACE "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@")
++target_include_directories(__zenohc_static INTERFACE "${ZENOHC_INCLUDE_DIR}")
+ 
+ add_library(__zenohc_shared SHARED IMPORTED GLOBAL)
+ add_library(zenohc::shared ALIAS __zenohc_shared)
+ set_target_properties(__zenohc_shared PROPERTIES IMPORTED_NO_SONAME TRUE)
+-set_property(TARGET __zenohc_shared PROPERTY IMPORTED_LOCATION "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/@DYLIB@")
++set_property(TARGET __zenohc_shared PROPERTY IMPORTED_LOCATION "${ZENOHC_LIBRARY_DIR}/@DYLIB@")
+ if(NOT ("@IMPLIB@" STREQUAL ""))
+-    set_property(TARGET __zenohc_shared PROPERTY IMPORTED_IMPLIB "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_LIBDIR@/@IMPLIB@")
++    set_property(TARGET __zenohc_shared PROPERTY IMPORTED_IMPLIB "${ZENOHC_LIBRARY_DIR}/@IMPLIB@")
+ endif()
+-target_include_directories(__zenohc_shared INTERFACE "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_INCLUDEDIR@")
++target_include_directories(__zenohc_shared INTERFACE "${ZENOHC_INCLUDE_DIR}")
+ target_compile_definitions(__zenohc_shared INTERFACE ZENOHC_DYN_LIB)
+ 
+ if(ZENOHC_LIB_STATIC)
