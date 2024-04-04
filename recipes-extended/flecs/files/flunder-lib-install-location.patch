@@ -1,0 +1,12 @@
+diff --git a/flecs/CMakeLists.txt b/flecs/CMakeLists.txt
+index 661fe67b..9e4dc7bb 100644
+--- a/flecs/CMakeLists.txt
++++ b/flecs/CMakeLists.txt
+@@ -72,6 +72,6 @@ install(FILES ${FLECS_SOURCE_DIR}/pkg/fs/etc/nginx/floxy.conf
+ install(
+     TARGETS lib flunder.shared LIBRARY
+     DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    COMPONENT native-sysv
++    COMPONENT native
+     EXCLUDE_FROM_ALL
+ )

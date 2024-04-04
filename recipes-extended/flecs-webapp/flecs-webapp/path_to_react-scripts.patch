@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index 1c6db75..f14b686 100644
+--- a/package.json
++++ b/package.json
+@@ -58,7 +58,7 @@
+   },
+   "scripts": {
+     "start": "react-scripts start",
+-    "build": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
++    "build": "sh -ac '. ./.env.${REACT_APP_ENV}; ./node_modules/react-scripts/bin/react-scripts.js build'",
+     "build:test": "REACT_APP_ENV=test npm run build",
+     "build:production": "REACT_APP_ENV=production npm run build",
+     "test": "react-scripts test --env=jsdom",
