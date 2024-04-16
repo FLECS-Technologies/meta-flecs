@@ -1,3 +1,3 @@
-SRCREV = "42d5bd7c0904e0b4ad0b57449d902b9aeb3b9665"
+SRCREV = "3879416b22198f6e2d3b590808e4615f1bdb3105"
 
 include flecs.inc

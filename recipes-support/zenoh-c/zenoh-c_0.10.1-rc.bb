@@ -29,10 +29,11 @@ do_compile() {
 do_install() {
     export RUSTFLAGS="${RUSTFLAGS}"
     export RUST_TARGET_PATH="${RUST_TARGET_PATH}"
+    rustc --print target-list
     cmake_do_install
 }
 
-EXTRA_OECMAKE = "-DZENOHC_CUSTOM_TARGET=arm-poky-linux-gnueabi"
+EXTRA_OECMAKE = "-DZENOHC_CUSTOM_TARGET=${TARGET_SYS}"
 
 SOLIBS = ".so"
 FILES_SOLIBSDEV = ""
